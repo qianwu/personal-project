@@ -15,4 +15,4 @@ def find_factorial2(input_number):
         return input_number * find_factorial2(input_number - 1)
 
 print(find_factorial(0))
-print(find_factorial2(0))
+print(find_factorial2(3))

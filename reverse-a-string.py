@@ -12,3 +12,6 @@ def reverse_string(input_string):
 print(reverse_string("hello")) 
 print(reverse_string("hello world"))
 print(reverse_string("hello world !"))     
+
+def revese_string2(input_string):
+    return input_string[::-1]

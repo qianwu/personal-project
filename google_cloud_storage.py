@@ -1,7 +1,6 @@
 '''I will use this file to upload the pronunciation file with google drive api
 '''
 
-
 import os
 import logging
 from google.auth.transport.requests import Request
@@ -9,8 +8,12 @@ from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
+from googleapiclient.http import MediaFileUpload, MediaIoBaseDownload
+import io
 
-SCOPES = ["https://www.googleapis.com/auth/drive.metadata.readonly"]
+SCOPES = ["https://www.googleapis.com/auth/drive.file"]
+
+
 class GoogleDriveStorage:
     def __init__(self, credentials_path):
         self.logger = logging.getLogger(__name__)
@@ -65,3 +68,19 @@ class GoogleDriveStorage:
         with open(file_name, "wb") as f:
             f.write(fh.getvalue())
         self.logger.info("File ID: %s has been downloaded" % file_id)
+
+    def list_files(self):
+        results = self.service.files().list(pageSize=10, fields="nextPageToken, files(id, name)").execute()
+        items = results.get("files", [])
+        if not items:
+            self.logger.info("No files found.")
+        else:
+            self.logger.info("Files:")
+            for item in items:
+                self.logger.info(u"{0} ({1})".format(item["name"], item["id"]))
+
+
+if __name__ == "__main__":
+    gds = GoogleDriveStorage("credentials.json")
+    gds.upload_file("pronunciation/sherbet.mp3", "sherbet.mp3")
+    gds.list_files()

@@ -1,35 +1,47 @@
 # Write a Python function to check if a string is a palindrome.
 def check_string_is_palindrome(input_string):
-    return input_string == input_string[::-1]
+    punc = '''!()-[]{};:'"\,<>./?@#$%^&*_~'''
+    remove_punc = ""
+    for ele in input_string:
+        if ele not in punc and ele != ' ':
+            remove_punc += ele
+    print('\n'+remove_punc.strip().lower())
+    print('\n'+remove_punc.strip().lower())
+    return remove_punc.lower().strip() == remove_punc.lower().strip()[::-1]
+
+
+def test_check_string_is_palindrome():
+    assert check_string_is_palindrome("Madam, I'm Adam,") is True
+    assert check_string_is_palindrome("madam") is True
 
 
 # inplement a funtion to find the first non-repeating character in a string
-def find_first_non_repeating_character(str):
+def find_first_non_repeating_character(string):
     # create a dictionary to store the count of each character
     char_count = {}
     # iterate through the string and count the occurrence of each character
-    for char in str:
+    for char in string:
         if char in char_count:
             char_count[char] += 1
         else:
             char_count[char] = 1
     # find the first character with count 1
-    for char in str:
+    for char in string:
         if char_count[char] == 1:
             return char
         return None
 
 
-def find_first_non_repeating_character_by_set(str):
+def find_first_non_repeating_character_by_set(string):
     repeated_chars = set()
     non_repeated_chars = set()
-    for char in str:
+    for char in string:
         if char in non_repeated_chars:
             non_repeated_chars.remove(char)
             repeated_chars.add(char)
         elif char not in repeated_chars:
             non_repeated_chars.add(char)
-    for char in str:
+    for char in string:
         if char in non_repeated_chars:
             return char
     return None
@@ -39,16 +51,20 @@ def find_first_non_repeating_character_by_set(str):
 # find the maximum difference between any two numbers in the list.
 # For example, if the input is [1, 2, 3, 8, 9], the output should be 7.
 def find_max_difference(numbers):
+    # if len(numbers) < 2:
+    #     return None
+    # min_num = numbers[0]
+    # max_diff = 0
+    # for num in numbers:
+    #     if num < min_num:
+    #         min_num = num
+    #     if num - min_num > max_diff:
+    #         max_diff = num - min_num
+    # return max_diff
+    # another solution
     if len(numbers) < 2:
         return None
-    min_num = numbers[0]
-    max_diff = 0
-    for num in numbers:
-        if num < min_num:
-            min_num = num
-        if num - min_num > max_diff:
-            max_diff = num - min_num
-    return max_diff
+    return max(numbers) - min(numbers)
 
 
 def test_find_max_difference():
@@ -85,10 +101,10 @@ def test_calculate_factorial_recursive():
 
 
 # Given a string, write a function in Python to count the number of vowels in the string.
-def count_vowels_in_string(str):
+def count_vowels_in_string(string):
     vowels = 'aeiou'
     count = 0
-    for char in str:
+    for char in string:
         if char in vowels:
             count += 1
     return count
@@ -105,9 +121,9 @@ class Node:
         self.data = data
         self.next = None
 
-    def reverse_linked_list(head):
+    def reverse_linked_list(self):
         prev_node = None
-        current_node = head
+        current_node = self
         while current_node:
             next_node = current_node.next
             current_node.next = prev_node
@@ -155,6 +171,8 @@ def find_sorted_array_value_index(int_array, value):
     return -1
 
 
+
+
 def test_find_sorted_array_value_index():
     assert find_sorted_array_value_index([1, 2, 3, 4, 5], 3) == 2
     assert find_sorted_array_value_index([1, 2, 3, 4, 5], -1) == -1
@@ -186,24 +204,26 @@ def test_generate():
 
 
 # Write a Python function to find the intersection of two arrays.
-def find(array1, array2):
-    array1.sort()
-    array2.sort()
-    inter_array = []
-    for i in array1:
-        if i in array2:
-            inter_array.append(i)
-    return inter_array
+def find_intersection_two_arrays(array1, array2):
+    # array1.sort()
+    # array2.sort()
+    # inter_array = []
+    # for i in array1:
+    #     if i in array2:
+    #         inter_array.append(i)
+    # return inter_array
+    # another solution
+    return list(set(array1) & set(array2))
 
 
 def test_find():
-    assert find([1, 2, 3], [2, 3, 4]) == [2, 3]
-    assert find([1, 2, 2, 1], [2, 2]) == [2, 2]
-    assert find([1, 2, 3], [4, 5, 6]) == []
-    assert find([1, 2, 3], [1, 2, 3]) == [1, 2, 3]
-    assert find([1, 2, 3], [3, 2, 1]) == [1, 2, 3]
-    assert find(["a", "ab", "abc"], ["d", "ad", "b", "a"]) == ["a"]
-    assert find(["a", "1", "abc"], ["d", "ad", "b", "a", "1"]) == ["1", "a"]
+    assert find_intersection_two_arrays([1, 2, 3], [2, 3, 4]) == [2, 3]
+    assert find_intersection_two_arrays([1, 2, 2, 1], [2, 2]) == [2, 2]
+    assert find_intersection_two_arrays([1, 2, 3], [4, 5, 6]) == []
+    assert find_intersection_two_arrays([1, 2, 3], [1, 2, 3]) == [1, 2, 3]
+    assert find_intersection_two_arrays([1, 2, 3], [3, 2, 1]) == [1, 2, 3]
+    assert find_intersection_two_arrays(["a", "ab", "abc"], ["d", "ad", "b", "a"]) == ["a"]
+    assert find_intersection_two_arrays(["a", "1", "abc"], ["d", "ad", "b", "a", "1"]) == ["1", "a"]
 
 
 # Given a binary tree, write a function in Python \n
